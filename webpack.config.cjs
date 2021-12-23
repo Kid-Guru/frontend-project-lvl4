@@ -2,6 +2,7 @@
 
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const mode = process.env.NODE_ENV || 'development';
 
@@ -20,9 +21,11 @@ module.exports = {
     host: '0.0.0.0',
     publicPath: '/assets/',
     historyApiFallback: true,
+    https: true,
   },
   plugins: [
     new MiniCssExtractPlugin(),
+    new CleanWebpackPlugin(),
   ],
   module: {
     rules: [

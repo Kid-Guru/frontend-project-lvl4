@@ -4,11 +4,13 @@ root: true
 
 plugins:
   - functional
+  - prettier
 
 extends:
   - airbnb
   - "plugin:functional/external-recommended"
   - "plugin:functional/recommended"
+  - plugin:prettier/recommended
 
 parser: babel-eslint
 
