@@ -20,6 +20,7 @@
   "license": "ISC",
   "homepage": "",
   "dependencies": {
+    "@hookform/error-message": "^2.0.0",
     "bootstrap": "^4.6.0",
     "core-js": "^3.12.1",
     "debug": "^4.3.1",
@@ -40,6 +41,10 @@
     "popper.js": "^1.16.1",
     "prettier": "^2.5.1",
     "pug": "^3.0.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-hook-form": "^7.22.4",
+    "react-router-dom": "^6.2.1",
     "regenerator-runtime": "^0.13.7"
   },
   "devDependencies": {
@@ -48,7 +53,8 @@
     "@babel/node": "^7.13.13",
     "@babel/plugin-proposal-class-properties": "^7.13.0",
     "@babel/preset-env": "^7.14.1",
-    "@babel/preset-react": "^7.13.13",
+    "@babel/preset-react": "^7.16.5",
+    "@hookform/devtools": "^4.0.1",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.2",
     "clean-webpack-plugin": "^4.0.0",
