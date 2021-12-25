@@ -1,13 +1,45 @@
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
+import { useContext, useEffect } from 'react';
+import { AuthContext } from '../../contexts/Auth';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
+  const { signIn, isAuth } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || '/';
+
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    setError,
+    formState: { errors }
   } = useForm();
-  const onSubmit = (data) => console.log(data);
+
+  const onSubmit = ({ login, password }) => {
+    signIn(login, password)
+      .then(() => navigate(from, { replace: true }))
+      .catch((e) => [
+        {
+          type: 'manual',
+          name: 'login',
+          message: 'Неверный логин или пароль'
+        },
+        {
+          type: 'manual',
+          name: 'password',
+          message: 'Неверный логин или пароль'
+        }
+      ].forEach(({ name, type, message }) =>
+      setError(name, { type, message })
+    ));
+  };
+
+  useEffect(() => {
+    if (isAuth) navigate('/', { replace: true });
+  }, [isAuth]);
 
   return (
     <section className="vh-100">
@@ -23,14 +55,14 @@ const LoginPage = () => {
           <div className="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="form-outline mb-4">
-                <label className="form-label" htmlFor="nickName">
+                <label className="form-label" htmlFor="login">
                   Ник
                 </label>
                 <input
-                  {...register('nickName', { required: 'Поле обязательно' })}
-                  className={`form-control form-control-lg ${errors.nickName && 'is-invalid'}`}
+                  {...register('login', { required: 'Поле обязательно' })}
+                  className={`form-control form-control-lg ${errors.login && 'is-invalid'}`}
                 />
-                <ErrorMessage errors={errors} name="nickName" render={({message}) => <div className="invalid-feedback">{message}</div>} />
+                <ErrorMessage errors={errors} name="login" render={({ message }) => <div className="invalid-feedback">{message}</div>} />
               </div>
 
               <div className="form-outline mb-4">
@@ -42,7 +74,7 @@ const LoginPage = () => {
                   {...register('password', { required: 'Поле обязательно' })}
                   className={`form-control form-control-lg ${errors.password && 'is-invalid'}`}
                 />
-                <ErrorMessage errors={errors} name="password" render={({message}) => <div className="invalid-feedback">{message}</div>} />
+                <ErrorMessage errors={errors} name="password" render={({ message }) => <div className="invalid-feedback">{message}</div>} />
               </div>
 
               <div className="d-flex justify-content-around align-items-center mb-4">
