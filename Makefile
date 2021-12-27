@@ -7,7 +7,7 @@ start-backend:
 	npx nodemon bin/slack.js
 
 start-frontend:
-	npx webpack serve
+	npm run serve
 
 install-deps:
 	npm ci

@@ -1,8 +1,8 @@
-import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import { useContext, useEffect } from 'react';
-import { AuthContext } from '../../contexts/Auth';
+import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../contexts/Auth';
 
 const LoginPage = () => {
   const { signIn, isAuth } = useContext(AuthContext);
@@ -21,20 +21,20 @@ const LoginPage = () => {
   const onSubmit = ({ login, password }) => {
     signIn(login, password)
       .then(() => navigate(from, { replace: true }))
-      .catch((e) => [
-        {
-          type: 'manual',
-          name: 'login',
-          message: 'Неверный логин или пароль'
-        },
-        {
-          type: 'manual',
-          name: 'password',
-          message: 'Неверный логин или пароль'
-        }
-      ].forEach(({ name, type, message }) =>
-      setError(name, { type, message })
-    ));
+      .catch(() =>
+        [
+          {
+            type: 'manual',
+            name: 'login',
+            message: 'Неверный логин или пароль'
+          },
+          {
+            type: 'manual',
+            name: 'password',
+            message: 'Неверный логин или пароль'
+          }
+        ].forEach(({ name, type, message }) => setError(name, { type, message }))
+      );
   };
 
   useEffect(() => {
@@ -46,11 +46,7 @@ const LoginPage = () => {
       <div className="container py-5 h-100">
         <div className="row d-flex align-items-center justify-content-center h-100">
           <div className="col-md-8 col-lg-7 col-xl-6">
-            <img
-              src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
-              className="img-fluid"
-              alt="Phone image"
-            />
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg" className="img-fluid" alt="" />
           </div>
           <div className="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -78,7 +74,7 @@ const LoginPage = () => {
               </div>
 
               <div className="d-flex justify-content-around align-items-center mb-4">
-                <a href="#">Нет аккаунта</a>
+                <a href="/">Нет аккаунта</a>
               </div>
 
               <button type="submit" className="btn btn-primary btn-lg btn-block">

@@ -1,14 +1,10 @@
-import axios from 'axios';
+import { API } from '../api';
 
 const AUTH_KEY = 'AUTH_KEY';
 
-function delay(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 const authService = {
   async signin(username, password) {
-    const responce = await axios.post('http://localhost:5000/api/v1/login', { username, password });
+    const responce = await API.signIn({ username, password });
 
     localStorage.setItem(AUTH_KEY, responce.data.token);
     return responce;
