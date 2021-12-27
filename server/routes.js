@@ -13,13 +13,11 @@ const buildState = (defaultState) => {
   const state = {
     channels: [
       { id: generalChannelId, name: 'general', removable: false },
-      { id: randomChannelId, name: 'random', removable: false },
+      { id: randomChannelId, name: 'random', removable: false }
     ],
     messages: [],
     currentChannelId: generalChannelId,
-    users: [
-      { id: 1, username: 'admin', password: 'admin' },
-    ],
+    users: [{ id: 1, username: 'admin', password: 'admin' }]
   };
 
   if (defaultState.messages) {
@@ -47,7 +45,7 @@ export default (app, defaultState = {}) => {
     socket.on('newMessage', (message, acknowledge = _.noop) => {
       const messageWithId = {
         ...message,
-        id: getNextId(),
+        id: getNextId()
       };
       state.messages.push(messageWithId);
       acknowledge({ status: 'ok' });
@@ -58,7 +56,7 @@ export default (app, defaultState = {}) => {
       const channelWithId = {
         ...channel,
         removable: true,
-        id: getNextId(),
+        id: getNextId()
       };
 
       state.channels.push(channelWithId);
@@ -114,10 +112,7 @@ export default (app, defaultState = {}) => {
     const newUser = { id: getNextId(), username, password };
     const token = app.jwt.sign({ userId: newUser.id });
     state.users.push(newUser);
-    reply
-      .code(201)
-      .header('Content-Type', 'application/json; charset=utf-8')
-      .send({ token, username });
+    reply.code(201).header('Content-Type', 'application/json; charset=utf-8').send({ token, username });
   });
 
   app.get('/api/v1/data', { preValidation: [app.authenticate] }, (req, reply) => {
@@ -128,13 +123,10 @@ export default (app, defaultState = {}) => {
       return;
     }
 
-    reply
-      .header('Content-Type', 'application/json; charset=utf-8')
-      .send(_.omit(state, 'users'));
+    reply.header('Content-Type', 'application/json; charset=utf-8').send(_.omit(state, 'users'));
   });
 
-  app
-    .get('*', (_req, reply) => {
-      reply.view('index.pug');
-    });
+  app.get('*', (_req, reply) => {
+    reply.view('index.pug');
+  });
 };

@@ -8,20 +8,18 @@ const AuthProvider = ({ children }) => {
   const [isAuthChecked, setIsAuthChecked] = useState(false);
 
   const signIn = async (login, password) => {
-    return authService.signin(login, password)
-      .then(() => setIsAuth(true));
+    return authService.signin(login, password).then(() => setIsAuth(true));
   };
 
   const signOut = async () => {
-    return authService.signout()
-      .then(() => setIsAuth(false));
+    return authService.signout().then(() => setIsAuth(false));
   };
 
   useEffect(async () => {
     const isAuth = await authService.checkAuth();
     setIsAuth(isAuth);
     setIsAuthChecked(true);
-  }, [])
+  }, []);
 
   if (!isAuthChecked) return null;
 

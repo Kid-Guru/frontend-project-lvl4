@@ -14,6 +14,7 @@ import addRoutes from './routes.js';
 
 const { Unauthorized } = HttpErrors;
 
+// @ts-ignore
 // eslint-disable-next-line no-underscore-dangle
 const __filename = fileURLToPath(import.meta.url);
 // eslint-disable-next-line no-underscore-dangle
@@ -28,19 +29,19 @@ const setUpViews = (app) => {
   const domain = isDevelopment ? devHost : '';
   app.register(pointOfView, {
     engine: {
-      pug: Pug,
+      pug: Pug
     },
     defaultContext: {
-      assetPath: (filename) => `${domain}/assets/${filename}`,
+      assetPath: (filename) => `${domain}/assets/${filename}`
     },
-    templates: path.join(__dirname, 'views'),
+    templates: path.join(__dirname, 'views')
   });
 };
 
 const setUpStaticAssets = (app) => {
   app.register(fastifyStatic, {
     root: path.join(appPath, 'dist/public'),
-    prefix: '/assets',
+    prefix: '/assets'
   });
 };
 
@@ -48,7 +49,7 @@ const setUpAuth = (app) => {
   // TODO add socket auth
   app
     .register(fastifyJWT, {
-      secret: 'supersecret',
+      secret: 'supersecret'
     })
     .decorate('authenticate', async (req, reply) => {
       try {
