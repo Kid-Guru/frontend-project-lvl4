@@ -12,6 +12,9 @@ const axios = Axios.create({
 const API = {
   async signIn(body, config = {}) {
     return axios.post('/api/v1/login', body, config);
+  },
+  async data(config = {}) {
+    return axios.get('/api/v1/data', config);
   }
 };
 

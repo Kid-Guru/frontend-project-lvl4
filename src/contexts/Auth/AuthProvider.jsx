@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from 'react';
-import { authService } from '../../services/auth';
+import { store } from '../../store';
 
 export const AuthContext = createContext(null);
 
@@ -8,15 +8,21 @@ const AuthProvider = ({ children }) => {
   const [isAuthChecked, setIsAuthChecked] = useState(false);
 
   const signIn = async (login, password) => {
-    return authService.signin(login, password).then(() => setIsAuth(true));
+    return store.signIn(login, password).then((resp) => {
+      setIsAuth(true);
+      store.userName = resp.data.username;
+    });
   };
 
   const signOut = async () => {
-    return authService.signout().then(() => setIsAuth(false));
+    return store.signOut().then(() => {
+      setIsAuth(false);
+      store.userName = '';
+    });
   };
 
   useEffect(async () => {
-    const isAuth = await authService.checkAuth();
+    const isAuth = await store.checkAuth();
     setIsAuth(isAuth);
     setIsAuthChecked(true);
   }, []);
